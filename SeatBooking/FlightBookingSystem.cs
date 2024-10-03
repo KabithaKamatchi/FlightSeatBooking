@@ -1,45 +1,17 @@
 ﻿using System;
+using System.Xml;
 
-namespace FlightBookingSystem
+namespace FlightSeatBooking
 {
-    public class Passenger
+    public static class FlightBooking
     {
-        public string strName { get; set; }
+        public static SeatAvailable[][] seats;
+        public static char[] cSeatLabels = { 'A', 'B', 'C', 'D', 'E' };
+        const int nRows = 10;
+        const int nSeatsPerRow = 5;
 
-        public string strGender { get; set; }
-
-        public int nAge { get; set; }
-
-        public Passenger(string strName, string strGender, int nAge)
+        static FlightBooking()
         {
-            this.strName = strName;
-            this.strGender = strGender;
-            this.nAge = nAge;
-        }
-    }
-
-    public class SeatAvailable
-    {
-        public bool IsBooked { get; set; }
-
-        public Passenger passenger { get; set; }
-
-        public SeatAvailable()
-        {
-            IsBooked = false;
-        }
-    }
-
-    public class FlightBooking
-    {
-        SeatAvailable[][] seats;
-        char[] cSeatLabels = { 'A', 'B', 'C', 'D', 'E' };
-        int nRows = 10 ;
-        int nSeatsPerRow = 5;
-        public FlightBooking(int nRows , int nSeatsPerRow )
-        {
-            this.nRows = nRows;
-            this.nSeatsPerRow = nSeatsPerRow;
             seats = new SeatAvailable[nRows][];
 
             for (int i = 0; i < nRows; i++)
@@ -52,73 +24,75 @@ namespace FlightBookingSystem
             }
         }
 
-        public bool BookSeat(int nSeatRow, int nSeatNumber, Passenger passenger)
+        public static bool BookSeat(int nSeatRow, int nSeatNumber, Passenger passenger)
         {
             if (passenger == null)
             {
-                Console.WriteLine("Error:Passenger cannot be null");
+                Console.WriteLine("Error: Passenger cannot be null");
                 return false;
             }
 
+            
             int nCheckingRowIndex = nSeatRow - 1;
             int nCheckingColumnIndex = nSeatNumber - 1;
 
             if (seats[nCheckingRowIndex][nCheckingColumnIndex].IsBooked)
             {
-                Console.WriteLine($"Seat{nSeatRow} - {cSeatLabels[nCheckingColumnIndex]} is already Booked");
+                Console.WriteLine($"Seat {nSeatRow} - {cSeatLabels[nCheckingColumnIndex]} is already booked");
                 return false;
             }
             else
             {
                 seats[nCheckingRowIndex][nCheckingColumnIndex].IsBooked = true;
                 seats[nCheckingRowIndex][nCheckingColumnIndex].passenger = passenger;
-                Console.WriteLine($"Seat {nSeatRow} - {nSeatNumber} booked successfully for {passenger.strName}");
+                Console.WriteLine($"Booking successful! Passenger Details: Name: {passenger.strName}, Gender: {passenger.strGender}, Age: {passenger.nAge}, Booking Row: {nSeatRow}, Seat Number: {nSeatNumber} - {cSeatLabels[nCheckingColumnIndex]}");
                 return true;
             }
         }
 
-        public void ShowAvailableSeatNumber()
+        public static void ShowAvailableTickets()
         {
-            Console.WriteLine("Available Seats: ");
+            Console.WriteLine("| Window  | Middle | Aisle  | Aisle  | Middle | Window |");
             for (int i = 0; i < nRows; i++)
             {
                 for (int j = 0; j < nSeatsPerRow; j++)
                 {
                     if (!seats[i][j].IsBooked)
                     {
-                        Console.Write($"[{i + 1} {cSeatLabels[j]}");
+                        Console.Write($"{i + 1}{cSeatLabels[j]} A. ");
                     }
-                    Console.WriteLine(" ");
+                    else
+                    {
+                        Console.Write($"{i + 1}{cSeatLabels[j]} X. ");                       
+                    }
                 }
+                Console.WriteLine();
             }
-            Console.WriteLine();
+            
         }
 
-        public bool IsFullyBooked()
+        public static void ShowBookedSeats()
         {
-            for (int i = 0; i < seats.Length; i++)
+            bool bIsPassengerFound = false;
+            Console.WriteLine("Booked Seats: ");
+            for (int i = 0; i < nRows; i++)
             {
-                for (int j = 0; j <= seats[i].Length; j++)
+                Console.Write("|");
+                for (int j = 0; j < nSeatsPerRow; j++)
                 {
-                    if (!seats[i][j].IsBooked)
+                    if (seats[i][j].IsBooked)
                     {
-                        return false;
+                        bIsPassengerFound = true;
+                        Console.WriteLine($" {i + 1} {cSeatLabels[j]} (Passenger: {seats[i][j].passenger.strName})");                      
                     }
-                }
+                 }                   
+             }
+
+            if (!bIsPassengerFound)
+            {
+                Console.WriteLine("No booked seats available.");
             }
-            return true;
+        }
         }
     }
-}
-
-
-      
- 
-
-
-
-  
-
-
-       
 

@@ -1,54 +1,56 @@
-﻿namespace FlightBookingSystem
+﻿using FlightSeatBooking;
+
+class Program
 {
-    public class Program
+    static void Main(string[] args)
     {
-        public static void Main(string[] args)
+        while (true)
         {
+            Console.WriteLine("1. Show Available Seats");
+            Console.WriteLine("2. Book a Seat");
+            Console.WriteLine("3. Show Booked Seats");          
+            Console.WriteLine("4. Exit");
+            Console.Write("Choose an option: ");
 
-            FlightBooking flightBooking = new FlightBooking(5, 5);
+            int option = int.Parse(Console.ReadLine());
 
-            while (true)
+            switch (option)
             {
-                flightBooking.ShowAvailableSeatNumber();
-
-                if (flightBooking.IsFullyBooked())
-                {
-                    Console.WriteLine("The flight is fully booked.");
+                case 1:
+                    FlightBooking.ShowAvailableTickets();
                     break;
-                }
+             
+                case 2:
+                    Console.Write("Enter Passenger Name: ");
+                    string name = Console.ReadLine();
 
-                Console.WriteLine("Enter passenger name: ");
-                string passengerName = Console.ReadLine();
+                    Console.Write("Enter Passenger Gender (M/F): ");
+                    string gender = Console.ReadLine();
 
-                Console.WriteLine("Enter passenger gender (Male/Female): ");
-                string passengerGender = Console.ReadLine();
+                    Console.Write("Enter Passenger Age: ");
+                    int age = int.Parse(Console.ReadLine());
 
-                Console.WriteLine("Enter passenger age: ");
-                if (!int.TryParse(Console.ReadLine(), out int passengerAge))
-                {
-                    Console.WriteLine("Invalid age entered. Please enter a number.");
-                    continue;
-                }
+                    Console.Write("Enter Row Number (1-10): ");
+                    int row = int.Parse(Console.ReadLine());
 
-                Console.WriteLine("Enter seat row number: ");
-                if (!int.TryParse(Console.ReadLine(), out int seatRow) || seatRow < 1 || seatRow > 5)
-                {
-                    Console.WriteLine("Invalid row number. Please enter a number between 1 and 5.");
-                    continue;
-                }
+                    Console.Write("Enter Seat Number (1-5): ");
+                    int seat = int.Parse(Console.ReadLine());
 
-                Console.WriteLine("Enter seat column number : ");
-                if (!int.TryParse(Console.ReadLine(), out int seatColumn) || seatColumn < 1 || seatColumn > 5 )
-                {
-                    Console.WriteLine("Invalid column number. Please enter a number between 1 and 10.");
-                    continue;
-                }
+                    Passenger passenger = new Passenger(name, gender, age);
+                    FlightBooking.BookSeat(row, seat, passenger);
+                    break;
 
-                Passenger passenger = new Passenger(passengerName, passengerGender, passengerAge);
-                flightBooking.BookSeat(seatRow, seatColumn, passenger);
+                case 3:
+                    FlightBooking.ShowBookedSeats();
+                    break;
+
+                case 4:
+                    return; 
+
+                default:
+                    Console.WriteLine("Invalid option. Please try again.");
+                    break;
             }
         }
     }
-    }
-
-        
+}
