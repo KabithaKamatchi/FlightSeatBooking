@@ -1,4 +1,4 @@
-﻿using FlightSeatBooking;
+using FlightSeatBooking;
 
 class Program
 {
