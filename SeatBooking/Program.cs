@@ -22,22 +22,22 @@ class Program
              
                 case 2:
                     Console.Write("Enter Passenger Name: ");
-                    string name = Console.ReadLine();
+                    string strName = Console.ReadLine();
 
                     Console.Write("Enter Passenger Gender (M/F): ");
-                    string gender = Console.ReadLine();
+                    string strGender = Console.ReadLine();
 
                     Console.Write("Enter Passenger Age: ");
-                    int age = int.Parse(Console.ReadLine());
+                    int nAge = int.Parse(Console.ReadLine());
 
                     Console.Write("Enter Row Number (1-10): ");
-                    int row = int.Parse(Console.ReadLine());
+                    int nSeatRow = int.Parse(Console.ReadLine());
 
                     Console.Write("Enter Seat Number (1-5): ");
-                    int seat = int.Parse(Console.ReadLine());
+                    int nSeatNumber = int.Parse(Console.ReadLine());
 
-                    Passenger passenger = new Passenger(name, gender, age);
-                    FlightBooking.BookSeat(row, seat, passenger);
+                    Passenger passenger = new Passenger(strName, strGender, nAge);
+                    FlightBooking.BookSeat(nSeatRow, nSeatNumber, passenger);               
                     break;
 
                 case 3:

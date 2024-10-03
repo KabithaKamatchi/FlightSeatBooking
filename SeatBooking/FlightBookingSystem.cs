@@ -30,8 +30,7 @@ namespace FlightSeatBooking
             {
                 Console.WriteLine("Error: Passenger cannot be null");
                 return false;
-            }
-
+            }      
             
             int nCheckingRowIndex = nSeatRow - 1;
             int nCheckingColumnIndex = nSeatNumber - 1;
@@ -52,7 +51,7 @@ namespace FlightSeatBooking
 
         public static void ShowAvailableTickets()
         {
-            Console.WriteLine("| Window  | Middle | Aisle  | Aisle  | Middle | Window |");
+            Console.WriteLine("| Window  | Middle | Aisle  | Aisle  | Middle |");
             for (int i = 0; i < nRows; i++)
             {
                 for (int j = 0; j < nSeatsPerRow; j++)
@@ -77,13 +76,12 @@ namespace FlightSeatBooking
             Console.WriteLine("Booked Seats: ");
             for (int i = 0; i < nRows; i++)
             {
-                Console.Write("|");
                 for (int j = 0; j < nSeatsPerRow; j++)
                 {
                     if (seats[i][j].IsBooked)
                     {
                         bIsPassengerFound = true;
-                        Console.WriteLine($" {i + 1} {cSeatLabels[j]} (Passenger: {seats[i][j].passenger.strName})");                      
+                        Console.WriteLine($"  {i + 1} Row  Seat Label is {cSeatLabels[j]} Passenger: {seats[i][j].passenger.strName}, {seats[i][j].passenger.strGender}, {seats[i][j].passenger.nAge}");                      
                     }
                  }                   
              }
